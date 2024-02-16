@@ -1,25 +1,33 @@
-from flask import Flask,request,render_template
-import pickle
+from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
+# Liste des utilisateurs fictifs pour la démonstration
+utilisateurs = {
+    'utilisateur1': 'motdepasse1',
+    'utilisateur2': 'motdepasse2'
+}
 
-@app.route('/')
-def hello_world():
-    return render_template("login.html")
-database={'nachi':'123','james':'aac','karthik':'asdsf'}
+@app.route('/', methods=['GET', 'POST'])
+def connexion():
+    message = ''
 
-@app.route('/form_login',methods=['POST','GET'])
-def login():
-    name1=request.form['username']
-    pwd=request.form['password']
-    if name1 not in database:
-	    return render_template('login.html',info='Invalid User')
-    else:
-        if database[name1]!=pwd:
-            return render_template('login.html',info='Invalid Password')
+    if request.method == 'POST':
+        nom_utilisateur = request.form['nom_utilisateur']
+        mot_de_passe = request.form['mot_de_passe']
+
+        if nom_utilisateur in utilisateurs and utilisateurs[nom_utilisateur] == mot_de_passe:
+            # Authentification réussie, rediriger vers une page sécurisée
+            return redirect(url_for('page_securisee'))
         else:
-	         return render_template('home.html',name=name1)
+            message = 'Nom d\'utilisateur ou mot de passe incorrect.'
+
+    # Si la méthode est GET ou si l'authentification a échoué, afficher à nouveau la page de connexion
+    return render_template('connexion.html', message=message)
+
+@app.route('/page_securisee')
+def page_securisee():
+    return 'Bienvenue sur la page sécurisée!'
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page de Connexion</title>
+</head>
+<body>
+    <h1>Page de Connexion</h1>
+    <form action="/" method="POST">
+        <label for="nom_utilisateur">Nom d'utilisateur :</label><br>
+        <input type="text" id="nom_utilisateur" name="nom_utilisateur"><br>
+        <label for="mot_de_passe">Mot de passe :</label><br>
+        <input type="password" id="mot_de_passe" name="mot_de_passe"><br><br>
+        <input type="submit" value="Connexion">
+    </form>
+    {% if message %}
+    <p>{{ message }}</p>
+    {% endif %}
+</body>
+</html>
